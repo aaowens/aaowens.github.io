@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<HTML lang = "en">
+<HEAD>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>A Newcomer&#39;s Guide to the Julia Package Manager</title>
+  
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+  </script>
+
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+
+  
+<style>
+pre.hljl {
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 5px;
+    overflow-x: auto;
+    color: rgb(68,68,68); background-color: rgb(251,251,251); }
+pre.hljl > span.hljl-t { }
+pre.hljl > span.hljl-w { }
+pre.hljl > span.hljl-e { }
+pre.hljl > span.hljl-eB { }
+pre.hljl > span.hljl-o { }
+pre.hljl > span.hljl-k { color: rgb(148,91,176); font-weight: bold; }
+pre.hljl > span.hljl-kc { color: rgb(59,151,46); font-style: italic; }
+pre.hljl > span.hljl-kd { color: rgb(214,102,97); font-style: italic; }
+pre.hljl > span.hljl-kn { color: rgb(148,91,176); font-weight: bold; }
+pre.hljl > span.hljl-kp { color: rgb(148,91,176); font-weight: bold; }
+pre.hljl > span.hljl-kr { color: rgb(148,91,176); font-weight: bold; }
+pre.hljl > span.hljl-kt { color: rgb(148,91,176); font-weight: bold; }
+pre.hljl > span.hljl-n { }
+pre.hljl > span.hljl-na { }
+pre.hljl > span.hljl-nb { }
+pre.hljl > span.hljl-nbp { }
+pre.hljl > span.hljl-nc { }
+pre.hljl > span.hljl-ncB { }
+pre.hljl > span.hljl-nd { color: rgb(214,102,97); }
+pre.hljl > span.hljl-ne { }
+pre.hljl > span.hljl-neB { }
+pre.hljl > span.hljl-nf { color: rgb(66,102,213); }
+pre.hljl > span.hljl-nfm { color: rgb(66,102,213); }
+pre.hljl > span.hljl-np { }
+pre.hljl > span.hljl-nl { }
+pre.hljl > span.hljl-nn { }
+pre.hljl > span.hljl-no { }
+pre.hljl > span.hljl-nt { }
+pre.hljl > span.hljl-nv { }
+pre.hljl > span.hljl-nvc { }
+pre.hljl > span.hljl-nvg { }
+pre.hljl > span.hljl-nvi { }
+pre.hljl > span.hljl-nvm { }
+pre.hljl > span.hljl-l { }
+pre.hljl > span.hljl-ld { color: rgb(148,91,176); font-style: italic; }
+pre.hljl > span.hljl-s { color: rgb(201,61,57); }
+pre.hljl > span.hljl-sa { color: rgb(201,61,57); }
+pre.hljl > span.hljl-sb { color: rgb(201,61,57); }
+pre.hljl > span.hljl-sc { color: rgb(201,61,57); }
+pre.hljl > span.hljl-sd { color: rgb(201,61,57); }
+pre.hljl > span.hljl-sdB { color: rgb(201,61,57); }
+pre.hljl > span.hljl-sdC { color: rgb(201,61,57); }
+pre.hljl > span.hljl-se { color: rgb(59,151,46); }
+pre.hljl > span.hljl-sh { color: rgb(201,61,57); }
+pre.hljl > span.hljl-si { }
+pre.hljl > span.hljl-so { color: rgb(201,61,57); }
+pre.hljl > span.hljl-sr { color: rgb(201,61,57); }
+pre.hljl > span.hljl-ss { color: rgb(201,61,57); }
+pre.hljl > span.hljl-ssB { color: rgb(201,61,57); }
+pre.hljl > span.hljl-nB { color: rgb(59,151,46); }
+pre.hljl > span.hljl-nbB { color: rgb(59,151,46); }
+pre.hljl > span.hljl-nfB { color: rgb(59,151,46); }
+pre.hljl > span.hljl-nh { color: rgb(59,151,46); }
+pre.hljl > span.hljl-ni { color: rgb(59,151,46); }
+pre.hljl > span.hljl-nil { color: rgb(59,151,46); }
+pre.hljl > span.hljl-noB { color: rgb(59,151,46); }
+pre.hljl > span.hljl-oB { color: rgb(102,102,102); font-weight: bold; }
+pre.hljl > span.hljl-ow { color: rgb(102,102,102); font-weight: bold; }
+pre.hljl > span.hljl-p { }
+pre.hljl > span.hljl-c { color: rgb(153,153,119); font-style: italic; }
+pre.hljl > span.hljl-ch { color: rgb(153,153,119); font-style: italic; }
+pre.hljl > span.hljl-cm { color: rgb(153,153,119); font-style: italic; }
+pre.hljl > span.hljl-cp { color: rgb(153,153,119); font-style: italic; }
+pre.hljl > span.hljl-cpB { color: rgb(153,153,119); font-style: italic; }
+pre.hljl > span.hljl-cs { color: rgb(153,153,119); font-style: italic; }
+pre.hljl > span.hljl-csB { color: rgb(153,153,119); font-style: italic; }
+pre.hljl > span.hljl-g { }
+pre.hljl > span.hljl-gd { }
+pre.hljl > span.hljl-ge { }
+pre.hljl > span.hljl-geB { }
+pre.hljl > span.hljl-gh { }
+pre.hljl > span.hljl-gi { }
+pre.hljl > span.hljl-go { }
+pre.hljl > span.hljl-gp { }
+pre.hljl > span.hljl-gs { }
+pre.hljl > span.hljl-gsB { }
+pre.hljl > span.hljl-gt { }
+</style>
+
+
+
+  <style type="text/css">
+  @font-face {
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-style: normal;
+  font-weight: 600;
+}
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+body {
+  margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+[hidden],
+template {
+  display: none;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b,
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+mark {
+  background: #ff0;
+  color: #000;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+img {
+  border: 0;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+figure {
+  margin: 1em 40px;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+pre {
+  overflow: auto;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+}
+button {
+  overflow: visible;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+}
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+input {
+  line-height: normal;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+input[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box; /* 2 */
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+legend {
+  border: 0; /* 1 */
+  padding: 0; /* 2 */
+}
+textarea {
+  overflow: auto;
+}
+optgroup {
+  font-weight: bold;
+}
+table {
+  font-family: monospace, monospace;
+  font-size : 0.8em;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+thead th {
+    border-bottom: 1px solid black;
+    background-color: white;
+}
+tr:nth-child(odd){
+  background-color: rgb(248,248,248);
+}
+
+
+/*
+* Skeleton V2.0.4
+* Copyright 2014, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 12/29/2014
+*/
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box; }
+.column,
+.columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box; }
+@media (min-width: 400px) {
+  .container {
+    width: 85%;
+    padding: 0; }
+}
+@media (min-width: 550px) {
+  .container {
+    width: 80%; }
+  .column,
+  .columns {
+    margin-left: 4%; }
+  .column:first-child,
+  .columns:first-child {
+    margin-left: 0; }
+
+  .one.column,
+  .one.columns                    { width: 4.66666666667%; }
+  .two.columns                    { width: 13.3333333333%; }
+  .three.columns                  { width: 22%;            }
+  .four.columns                   { width: 30.6666666667%; }
+  .five.columns                   { width: 39.3333333333%; }
+  .six.columns                    { width: 48%;            }
+  .seven.columns                  { width: 56.6666666667%; }
+  .eight.columns                  { width: 65.3333333333%; }
+  .nine.columns                   { width: 74.0%;          }
+  .ten.columns                    { width: 82.6666666667%; }
+  .eleven.columns                 { width: 91.3333333333%; }
+  .twelve.columns                 { width: 100%; margin-left: 0; }
+
+  .one-third.column               { width: 30.6666666667%; }
+  .two-thirds.column              { width: 65.3333333333%; }
+
+  .one-half.column                { width: 48%; }
+
+  /* Offsets */
+  .offset-by-one.column,
+  .offset-by-one.columns          { margin-left: 8.66666666667%; }
+  .offset-by-two.column,
+  .offset-by-two.columns          { margin-left: 17.3333333333%; }
+  .offset-by-three.column,
+  .offset-by-three.columns        { margin-left: 26%;            }
+  .offset-by-four.column,
+  .offset-by-four.columns         { margin-left: 34.6666666667%; }
+  .offset-by-five.column,
+  .offset-by-five.columns         { margin-left: 43.3333333333%; }
+  .offset-by-six.column,
+  .offset-by-six.columns          { margin-left: 52%;            }
+  .offset-by-seven.column,
+  .offset-by-seven.columns        { margin-left: 60.6666666667%; }
+  .offset-by-eight.column,
+  .offset-by-eight.columns        { margin-left: 69.3333333333%; }
+  .offset-by-nine.column,
+  .offset-by-nine.columns         { margin-left: 78.0%;          }
+  .offset-by-ten.column,
+  .offset-by-ten.columns          { margin-left: 86.6666666667%; }
+  .offset-by-eleven.column,
+  .offset-by-eleven.columns       { margin-left: 95.3333333333%; }
+
+  .offset-by-one-third.column,
+  .offset-by-one-third.columns    { margin-left: 34.6666666667%; }
+  .offset-by-two-thirds.column,
+  .offset-by-two-thirds.columns   { margin-left: 69.3333333333%; }
+
+  .offset-by-one-half.column,
+  .offset-by-one-half.columns     { margin-left: 52%; }
+
+}
+html {
+  font-size: 62.5%; }
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222; }
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300; }
+h1 { font-size: 3.6rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h2 { font-size: 3.4rem; line-height: 1.25; letter-spacing: -.1rem; }
+h3 { font-size: 3.2rem; line-height: 1.3;  letter-spacing: -.1rem; }
+h4 { font-size: 2.8rem; line-height: 1.35; letter-spacing: -.08rem; }
+h5 { font-size: 2.4rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+p {
+  margin-top: 0; }
+a {
+  color: #1EAEDB; }
+a:hover {
+  color: #0FA0CE; }
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  color: #555;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box; }
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: #333;
+  border-color: #888;
+  outline: 0; }
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: #FFF;
+  background-color: #33C3F0;
+  border-color: #33C3F0; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #1EAEDB;
+  border-color: #1EAEDB; }
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+/* Removes awkward default styles on some inputs for iOS */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px; }
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #33C3F0;
+  outline: 0; }
+label,
+legend {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600; }
+fieldset {
+  padding: 0;
+  border-width: 0; }
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline; }
+label > .label-body {
+  display: inline-block;
+  margin-left: .5rem;
+  font-weight: normal; }
+ul {
+  list-style: circle; }
+ol {
+  list-style: decimal; }
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin: 1.5rem 0 1.5rem 3rem;
+  font-size: 90%; }
+li > p {margin : 0;}
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1; }
+th:first-child,
+td:first-child {
+  padding-left: 0; }
+th:last-child,
+td:last-child {
+  padding-right: 0; }
+button,
+.button {
+  margin-bottom: 1rem; }
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem; }
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
+form {
+  margin-bottom: 1.0rem; }
+.u-full-width {
+  width: 100%;
+  box-sizing: border-box; }
+.u-max-full-width {
+  max-width: 100%;
+  box-sizing: border-box; }
+.u-pull-right {
+  float: right; }
+.u-pull-left {
+  float: left; }
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  border-width: 0;
+  border-top: 1px solid #E1E1E1; }
+.container:after,
+.row:after,
+.u-cf {
+  content: "";
+  display: table;
+  clear: both; }
+
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  word-break: break-all;
+  word-wrap: break-word;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+pre.hljl {
+  margin: 0 0 10px;
+  display: block;
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding : 5px;
+}
+
+pre.output {
+  background: #ffffff;
+}
+
+pre.code {
+  background: #ffffff;
+}
+
+pre.julia-error {
+  color : red
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 13px;
+}
+
+
+@media (min-width: 400px) {}
+@media (min-width: 550px) {}
+@media (min-width: 750px) {}
+@media (min-width: 1000px) {}
+@media (min-width: 1200px) {}
+
+h1.title {margin-top : 20px}
+img {max-width : 100%}
+div.title {text-align: center;}
+
+  </style>
+
+
+
+</HEAD>
+  <BODY>
+    <div class ="container">
+      <div class = "row">
+        <div class = "col-md-12 twelve columns">
+
+          <div class="title">
+            <h1 class="title">A Newcomer&#39;s Guide to the Julia Package Manager</h1>
+            <h5>Andrew Owens</h5>
+            
+          </div>
+
+          <p>NOTE: Some of this code is only compatible with Julia 1.3 and later. I recommend upgrading to Julia 1.3.1 if you haven&#39;t already; it&#39;s quite a bit faster at some things.</p>
+<h2>What are Julia packages?</h2>
+<p>Unlike software packages like MATLAB and Stata, much of Julia&#39;s functionality is found in external packages. For example, you need the DataFrames.jl package to work with tabular data, you need the CSV.jl package to read tabular data, and you need the Optim.jl package to solve nonlinear optimization problems. None of these packages are installed by default. You need to add them using the Julia package manager. Let&#39;s add the DataFrames and CSV packages to our new Julia installation.</p>
+
+
+<pre class='hljl'>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>Pkg</span><span class='hljl-t'>
+</span><span class='hljl-so'>pkg&quot;activate&quot;</span>
+</pre>
+
+
+<pre class="output">
+Activating environment at &#96;~/.julia/environments/v1.3/Project.toml&#96;
+</pre>
+
+
+
+<pre class='hljl'>
+<span class='hljl-so'>pkg&quot;add DataFrames CSV&quot;</span>
+</pre>
+
+
+<pre class="output">
+Resolving package versions...
+  Updating &#96;~/.julia/environments/v1.3/Project.toml&#96;
+ &#91;no changes&#93;
+  Updating &#96;~/.julia/environments/v1.3/Manifest.toml&#96;
+ &#91;no changes&#93;
+</pre>
+
+
+<p>There are many important concepts in the above output. Let&#39;s discuss them briefly:</p>
+<ol>
+<li><p><code>Updating &#96;~/.julia/environments/v1.3/Project.toml&#96;</code> means we are permenantly adding packages to our default package enviornment, which lives in the file <code>Project.toml</code> stored on the computer at the path above. We&#39;ll talk more about environments later.</p>
+</li>
+<li><p><code>&#91;336ed68f&#93; - CSV v0.5.22</code> says we added the CSV package at the version 0.5.22, which is the latest feasible version. Why do I say &quot;feasible&quot;? More on that later.</p>
+</li>
+<li><p>A version is a snapshot of the package code taken at a particular time. Packages change over time as they are updated by their maintainers. New features may be added, and bugs will be fixed &#40;and introduced&#33;&#41;. Importantly, code that works fine on version 0.5.22 of CSV may not work on a future version, like 0.6.1. This is why it&#39;s important to understand versions. Julia&#39;s package manager provides tools to make sure your code won&#39;t break in the future because of a package update.</p>
+</li>
+<li><p><code>Updating &#96;~/.julia/environments/v1.3/Manifest.toml&#96;</code> says we are updating the file Manifest.toml. The Manifest is more detailed than the Project file. It contains a list of every package installed, those packages&#39; dependencies, and their precise versions. Given a Manifest.toml, you can exactly recreate the set of packages used by the code it came with, ensuring the code will work as expected.</p>
+</li>
+<li><p><code>&#91;324d7699&#93; - CategoricalArrays v0.7.6</code> says we added the CategoricalArrays package to the Manifest. Where did this package come from? It is a dependency of DataFrames, meaning the DataFrames package uses CategoricalArrays internally.</p>
+</li>
+</ol>
+<h2>How do I make sure that some Julia code I found somewhere will work?</h2>
+<p>As mentioned above, packages may change their functionality in future versions. For example, they might change the name of a function to something else. A piece of code which used the old name would break, meaning it would not work in the future. If we are sharing some code with someone else, or we just want to ensure our code won&#39;t break after we update our packages, we need a way to attach the desired package versions to our code. We do this by using environments.</p>
+<p>To motivate the need for environments, let&#39;s try running this block of code</p>
+
+
+<pre class='hljl'>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>DataFrames</span><span class='hljl-t'>
+</span><span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>GLM</span>
+</pre>
+
+
+<pre class="julia-error">
+ERROR: ArgumentError: Package GLM not found in current path:
+- Run &#96;import Pkg; Pkg.add&#40;&quot;GLM&quot;&#41;&#96; to install the GLM package.
+
+</pre>
+
+
+
+<pre class='hljl'>
+<span class='hljl-n'>df</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>DataFrame</span><span class='hljl-p'>(</span><span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>100</span><span class='hljl-p'>),</span><span class='hljl-t'> </span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>100</span><span class='hljl-p'>),</span><span class='hljl-t'> </span><span class='hljl-n'>c</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>100</span><span class='hljl-p'>))</span><span class='hljl-t'>
+</span><span class='hljl-n'>ols</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>lm</span><span class='hljl-p'>(</span><span class='hljl-nd'>@formula</span><span class='hljl-p'>(</span><span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>~</span><span class='hljl-t'> </span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>+</span><span class='hljl-t'> </span><span class='hljl-n'>c</span><span class='hljl-p'>),</span><span class='hljl-t'> </span><span class='hljl-n'>df</span><span class='hljl-p'>)</span>
+</pre>
+
+
+<pre class="julia-error">
+ERROR: LoadError: UndefVarError: @formula not defined
+in expression starting at none:1
+</pre>
+
+
+<p>It doesn&#39;t work&#33; This is because we never installed the GLM package.</p>
+<p>We could add it, but how will we know we&#39;ll have the same version the code above was written for? The safe solution is to activate the enviornment associated with this code.</p>
+<p>Let&#39;s try activating a project. Download the zip file here, which contains a Julia script, a Project.toml, and a Manifest.toml. Unzip it and change the working directory in Julia to that folder, then run this code.</p>
+
+
+<pre class='hljl'>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>Pkg</span><span class='hljl-t'>
+</span><span class='hljl-so'>pkg&quot;activate .&quot;</span>
+</pre>
+
+
+<pre class="output">
+Activating environment at &#96;~/Documents/julia/PackageBlog/Project.toml&#96;
+</pre>
+
+
+
+<pre class='hljl'>
+<span class='hljl-so'>pkg&quot;instantiate&quot;</span>
+</pre>
+
+
+
+<p>This activates the enviornment specified by the Project.toml file in the current directory, then instantiates the packages at the versions specified in the Manifest.toml file. Let&#39;s check what those are by checking the package enviornment status.</p>
+
+
+<pre class='hljl'>
+<span class='hljl-so'>pkg&quot;status&quot;</span>
+</pre>
+
+
+<pre class="output">
+Status &#96;~/Documents/julia/PackageBlog/Project.toml&#96;
+  &#91;a93c6f00&#93; DataFrames v0.20.0
+  &#91;38e38edf&#93; GLM v1.3.5
+</pre>
+
+
+<p>At this point, the package enviornment is exactly as it was when the project&#39;s author wrote this code, so we can trust that the code will work.</p>
+
+
+<pre class='hljl'>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>DataFrames</span><span class='hljl-t'>
+</span><span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>GLM</span><span class='hljl-t'>
+</span><span class='hljl-n'>x1</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>100</span><span class='hljl-p'>);</span><span class='hljl-t'> </span><span class='hljl-n'>x2</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>100</span><span class='hljl-p'>);</span><span class='hljl-t'> </span><span class='hljl-n'>eps</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>100</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>y</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>2</span><span class='hljl-n'>x1</span><span class='hljl-t'> </span><span class='hljl-oB'>.+</span><span class='hljl-t'> </span><span class='hljl-ni'>3</span><span class='hljl-n'>x2</span><span class='hljl-t'> </span><span class='hljl-oB'>.+</span><span class='hljl-t'> </span><span class='hljl-n'>eps</span><span class='hljl-t'>
+</span><span class='hljl-n'>df</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>DataFrame</span><span class='hljl-p'>(</span><span class='hljl-n'>y</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-n'>y</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x1</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-n'>x1</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x2</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-n'>x2</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>eps</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-n'>eps</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>ols</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>lm</span><span class='hljl-p'>(</span><span class='hljl-nd'>@formula</span><span class='hljl-p'>(</span><span class='hljl-n'>y</span><span class='hljl-t'> </span><span class='hljl-oB'>~</span><span class='hljl-t'> </span><span class='hljl-n'>x1</span><span class='hljl-t'> </span><span class='hljl-oB'>+</span><span class='hljl-t'> </span><span class='hljl-n'>x2</span><span class='hljl-p'>),</span><span class='hljl-t'> </span><span class='hljl-n'>df</span><span class='hljl-p'>)</span>
+</pre>
+
+
+<pre class="output">
+StatsModels.TableRegressionModel&#123;GLM.LinearModel&#123;GLM.LmResp&#123;Array&#123;Float64,1
+&#125;&#125;,GLM.DensePredChol&#123;Float64,LinearAlgebra.Cholesky&#123;Float64,Array&#123;Float64,2
+&#125;&#125;&#125;&#125;,Array&#123;Float64,2&#125;&#125;
+
+y ~ 1 &#43; x1 &#43; x2
+
+Coefficients:
+───────────────────────────────────────────────────────────────────────────
+             Estimate  Std. Error   t value  Pr&#40;&gt;|t|&#41;  Lower 95&#37;  Upper 95&#37;
+───────────────────────────────────────────────────────────────────────────
+&#40;Intercept&#41;  0.541232   0.079219    6.83211    &lt;1e-9    0.384005    0.69846
+x1           1.996      0.0978175  20.4054     &lt;1e-36   1.80186     2.19015
+x2           2.99665    0.1012     29.6112     &lt;1e-49   2.7958      3.1975 
+───────────────────────────────────────────────────────────────────────────
+</pre>
+
+
+<p>Again, we could have just added the GLM package to our default enviornment and not bothered with this seperate project enviornment. The code would probably still work. However, this approach is safer and guarantees that if the DataFrames or GLM interface changes in a few years, our code won&#39;t break. It also allows us to share our code with others, and it will just work.</p>
+<h2>Making your own project enviornment</h2>
+
+
+<pre class='hljl'>
+<span class='hljl-nf'>mkdir</span><span class='hljl-p'>(</span><span class='hljl-s'>&quot;NewProject&quot;</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nf'>cd</span><span class='hljl-p'>(</span><span class='hljl-s'>&quot;NewProject&quot;</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-so'>pkg&quot;activate .&quot;</span>
+</pre>
+
+
+<pre class="output">
+Activating new environment at &#96;~/Documents/julia/PackageBlog/NewProject/Pro
+ject.toml&#96;
+</pre>
+
+
+
+<pre class='hljl'>
+<span class='hljl-so'>pkg&quot;instantiate&quot;</span>
+</pre>
+
+
+<pre class="output">
+Updating registry at &#96;~/.julia/registries/General&#96;
+  Updating git-repo &#96;https://github.com/JuliaRegistries/General.git&#96;
+&#91;?25l&#91;2K&#91;?25h Resolving package versions...
+</pre>
+
+
+
+<pre class='hljl'>
+<span class='hljl-so'>pkg&quot;status&quot;</span>
+</pre>
+
+
+<pre class="output">
+Status &#96;~/Documents/julia/PackageBlog/NewProject/Project.toml&#96;
+  &#40;empty environment&#41;
+</pre>
+
+
+<p>This is a completely empty enviornment, which means we can&#39;t use DataFrames right now. Let&#39;s add DataFrames to our enviornment, along with BenchmarkTools.</p>
+
+
+<pre class='hljl'>
+<span class='hljl-so'>pkg&quot;add DataFrames BenchmarkTools&quot;</span>
+</pre>
+
+
+<pre class="output">
+Resolving package versions...
+  Updating &#96;~/Documents/julia/PackageBlog/NewProject/Project.toml&#96;
+  &#91;6e4b80f9&#93; &#43; BenchmarkTools v0.4.3
+  &#91;a93c6f00&#93; &#43; DataFrames v0.20.0
+  Updating &#96;~/Documents/julia/PackageBlog/NewProject/Manifest.toml&#96;
+  &#91;6e4b80f9&#93; &#43; BenchmarkTools v0.4.3
+  &#91;324d7699&#93; &#43; CategoricalArrays v0.7.6
+  &#91;34da2185&#93; &#43; Compat v3.2.0
+  &#91;9a962f9c&#93; &#43; DataAPI v1.1.0
+  &#91;a93c6f00&#93; &#43; DataFrames v0.20.0
+  &#91;864edb3b&#93; &#43; DataStructures v0.17.7
+  &#91;e2d170a0&#93; &#43; DataValueInterfaces v1.0.0
+  &#91;41ab1584&#93; &#43; InvertedIndices v1.0.0
+  &#91;82899510&#93; &#43; IteratorInterfaceExtensions v1.0.0
+  &#91;682c06a0&#93; &#43; JSON v0.21.0
+  &#91;e1d29d7a&#93; &#43; Missings v0.4.3
+  &#91;bac558e1&#93; &#43; OrderedCollections v1.1.0
+  &#91;69de0a69&#93; &#43; Parsers v0.3.10
+  &#91;2dfb63ee&#93; &#43; PooledArrays v0.5.3
+  &#91;189a3867&#93; &#43; Reexport v0.2.0
+  &#91;a2af1166&#93; &#43; SortingAlgorithms v0.3.1
+  &#91;3783bdb8&#93; &#43; TableTraits v1.0.0
+  &#91;bd369af6&#93; &#43; Tables v0.2.11
+  &#91;2a0f44e3&#93; &#43; Base64 
+  &#91;ade2ca70&#93; &#43; Dates 
+  &#91;8bb1440f&#93; &#43; DelimitedFiles 
+  &#91;8ba89e20&#93; &#43; Distributed 
+  &#91;9fa8497b&#93; &#43; Future 
+  &#91;b77e0a4c&#93; &#43; InteractiveUtils 
+  &#91;76f85450&#93; &#43; LibGit2 
+  &#91;8f399da3&#93; &#43; Libdl 
+  &#91;37e2e46d&#93; &#43; LinearAlgebra 
+  &#91;56ddb016&#93; &#43; Logging 
+  &#91;d6f4376e&#93; &#43; Markdown 
+  &#91;a63ad114&#93; &#43; Mmap 
+  &#91;44cfe95a&#93; &#43; Pkg 
+  &#91;de0858da&#93; &#43; Printf 
+  &#91;3fa0cd96&#93; &#43; REPL 
+  &#91;9a3f8284&#93; &#43; Random 
+  &#91;ea8e919c&#93; &#43; SHA 
+  &#91;9e88b42a&#93; &#43; Serialization 
+  &#91;1a1011a3&#93; &#43; SharedArrays 
+  &#91;6462fe0b&#93; &#43; Sockets 
+  &#91;2f01184e&#93; &#43; SparseArrays 
+  &#91;10745b16&#93; &#43; Statistics 
+  &#91;8dfed614&#93; &#43; Test 
+  &#91;cf7118a7&#93; &#43; UUIDs 
+  &#91;4ec0a83e&#93; &#43; Unicode
+</pre>
+
+
+
+<pre class='hljl'>
+<span class='hljl-nf'>readdir</span><span class='hljl-p'>()</span>
+</pre>
+
+
+<pre class="output">
+2-element Array&#123;String,1&#125;:
+ &quot;Manifest.toml&quot;
+ &quot;Project.toml&quot;
+</pre>
+
+
+<p>We see that there is not a Project.toml and Manifest.toml in the NewProject directory. Julia created these files automatically and stores the enviornment information there.</p>
+<p>At this point, we can write code for our new project and store the code in .jl files or Jupyter notebooks inside this directory. Remember to activate the enviornment in your code. The first lines in the script you use to run the code should be</p>
+
+
+
+<pre class='hljl'>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>Pkg</span><span class='hljl-t'>
+</span><span class='hljl-so'>pkg&quot;activate .&quot;</span><span class='hljl-t'>
+</span><span class='hljl-so'>pkg&quot;instantiate&quot;</span>
+</pre>
+
+
+<p>which activates and instantiates the local &#40;current directory&#41; enviornment.</p>
+<h2>How to distribute or archive your Julia project</h2>
+<p>Suppose you have been working on a project, whether it is a homework assignment, some research, or a solution for a client. You want to send your code to someone else. The way to do this is simply to zip your project folder into a file. For example, we could zip the NewProject folder we just made into a NewProject.zip file and email the file to someone. The user then unzips the file on their computer, starts Julia in that folder, and runs your code. Julia will activate the project and instantiate the Manifest.toml, guaranteeing they are using exactly the same package versions as you were.</p>
+<h2>Updating packages</h2>
+<p>Packages are updated frequently, and you should generally try to use the latest version in order to get performance improvements, bug fixes, and new features. Updating is easy, just do</p>
+
+
+<pre class='hljl'>
+<span class='hljl-so'>pkg&quot;update&quot;</span>
+</pre>
+
+
+<pre class="output">
+Updating registry at &#96;~/.julia/registries/General&#96;
+  Updating git-repo &#96;https://github.com/JuliaRegistries/General.git&#96;
+&#91;?25l&#91;2K&#91;?25h Resolving package versions...
+  Updating &#96;~/Documents/julia/PackageBlog/NewProject/Project.toml&#96;
+ &#91;no changes&#93;
+  Updating &#96;~/Documents/julia/PackageBlog/NewProject/Manifest.toml&#96;
+ &#91;no changes&#93;
+</pre>
+
+
+<p>Unsurprisingly, no updates are available, since we just installed these packages. Notice that the changes were written to <code>NewProject/Project.toml</code>, which is our current local enviornment. Nothing has changed in our default enviornment. It&#39;s fine to have different environments using different versions of packages.</p>
+<p>You may want to keep your default enviornment up to date, but avoid updating a local enviornment because you don&#39;t want to break your existing code. In fact, it&#39;s a good idea to have a backup zip file of your project &#40;including the Manifest.toml&#41; so that if an update breaks your code, you can instantly return to a good working version.</p>
+<h2>Avoid putting all packages in your default enviornment</h2>
+<p>It can be teampting to not bother with activating and instantiating and just add packages as needed to your default enviornment. This often works and is fairly common practice, but I recommend against it for 2 reasons.</p>
+<ol>
+<li><p>It makes it harder to share your project. Your colleague probably has different packages installed. Using project specific Project.toml and Manifest.toml solves this problem.</p>
+</li>
+<li><p>Version conflicts may make it impossible to use certain packages. For example, suppose package A requires a feature introduced in version 0.20 of DataFrames, but package B only works on version 0.19 of DataFrames. It will be impossible to install package A and B at the same time because you can only have one version of a package per enviornment. In contrast, if you have two projects with their own local environments, the first will just use 0.20, and the second will use 0.19.</p>
+</li>
+</ol>
+<h2>Final thoughts</h2>
+<p>There are other ways of managing package environments. The QuantEcon ecosystem uses the package InstantiateFromURL.jl to load the enviornment from the internet, so you can just execute a line of code instead of distributing a Project.toml and Manifest.toml. This works well for them, but for individual projects it&#39;s simpler just to zip your code along with the .toml files.</p>
+<p>This post doesn&#39;t cover package development. For that, I recommend Chris Rackauckas&#39;s <a href="https://www.youtube.com/watch?v&#61;QVmU29rCjaA&amp;t&#61;2309s">video</a>. The offical Pkg <a href="https://julialang.github.io/Pkg.jl/v1/">documentation</a> covers package management in exhaustive detail.</p>
+
+
+<pre class='hljl'>
+<span class='hljl-nf'>cd</span><span class='hljl-p'>(</span><span class='hljl-s'>&quot;..&quot;</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nf'>rm</span><span class='hljl-p'>(</span><span class='hljl-s'>&quot;NewProject&quot;</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>recursive</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-kc'>true</span><span class='hljl-p'>)</span>
+</pre>
+
+
+
+
+
+          <HR/>
+          <div class="footer"><p>
+          Published from <a href="packageblog.jmd">packageblog.jmd</a> using
+          <a href="http://github.com/mpastell/Weave.jl">Weave.jl</a>
+           on 2020-01-12.
+          <p></div>
+
+
+        </div>
+      </div>
+    </div>
+  </BODY>
+</HTML>
