@@ -789,9 +789,9 @@ Coefficients:
 ───────────────────────────────────────────────────────────────────────────
              Estimate  Std. Error   t value  Pr&#40;&gt;|t|&#41;  Lower 95&#37;  Upper 95&#37;
 ───────────────────────────────────────────────────────────────────────────
-&#40;Intercept&#41;  0.555266   0.0766758   7.24174    &lt;1e-9    0.403086   0.707446
-x1           1.93527    0.0954191  20.2818     &lt;1e-35   1.74589    2.12465 
-x2           2.98359    0.0857886  34.7784     &lt;1e-55   2.81332    3.15386 
+&#40;Intercept&#41;  0.525167   0.0713085   7.36472    &lt;1e-10   0.383639   0.666695
+x1           1.88925    0.102614   18.4113     &lt;1e-32   1.68559    2.09291 
+x2           2.96336    0.100546   29.4726     &lt;1e-49   2.76381    3.16292 
 ───────────────────────────────────────────────────────────────────────────
 </pre>
 
@@ -816,14 +816,7 @@ Activating new environment at &#96;~/Documents/julia/PackageBlog/NewProject/Pro
 ject.toml&#96;
   Updating registry at &#96;~/.julia/registries/General&#96;
   Updating git-repo &#96;https://github.com/JuliaRegistries/General.git&#96;
-&#91;?25l    Fetching: &#91;&gt;                                        &#93;  0.0 &#37;    
-Fetching: &#91;&#61;&#61;&#61;&#61;&#61;&#61;&gt;                                  &#93;  14.3 &#37;    Fetching:
- &#91;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&gt;                            &#93;  28.6 &#37;    Fetching: &#91;&#61;&#61;&#61;&#61;&#61;&#61;&#61;
-&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&gt;                      &#93;  42.9 &#37;    Fetching: &#91;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;
-&#61;&#61;&#61;&#61;&#61;&#61;&#61;&gt;                 &#93;  57.1 &#37;    Fetching: &#91;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;
-&#61;&#61;&#61;&#61;&gt;           &#93;  71.4 &#37;    Fetching: &#91;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;
-&#61;&gt;     &#93;  85.7 &#37;    Fetching: &#91;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&gt;&#93; 
- 100.0 &#37;&#91;2K&#91;?25h Resolving package versions...
+&#91;?25l&#91;2K&#91;?25h Resolving package versions...
     Status &#96;~/Documents/julia/PackageBlog/NewProject/Project.toml&#96;
   &#40;empty environment&#41;
 </pre>
@@ -916,7 +909,7 @@ Resolving package versions...
 
 <p>which activates and instantiates the local &#40;current directory&#41; enviornment.</p>
 <h2>How to distribute or archive your Julia project</h2>
-<p>Suppose you have been working on a project, whether it is a homework assignment, some research, or a solution for a client. You want to send your code to someone else. The way to do this is simply to zip your project folder into a file. For example, we could zip the NewProject folder we just made into a NewProject.zip file and email the file to someone. The user then unzips the file on their computer, starts Julia in that folder, and runs your code. Julia will activate the project and instantiate the Manifest.toml, guaranteeing they are using exactly the same package versions as you were.</p>
+<p>Suppose you have been working on a project, whether it is a homework assignment, some research, or a solution for a client. You want to send your code to someone else. The way to do this is simply to zip your project folder into a file. For example, we could zip the NewProject folder we just made into a NewProject.zip file and email the file to someone. The user then unzips the file on their computer, starts Julia in that folder, and runs your code. The lines of code above will cause Julia to activate the project and instantiate the Manifest.toml, guaranteeing they are using exactly the same package versions as you were.</p>
 <h2>Updating packages</h2>
 <p>Packages are updated frequently, and you should generally try to use the latest version in order to get performance improvements, bug fixes, and new features. Updating is easy, just do</p>
 
