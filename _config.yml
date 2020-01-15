@@ -24,6 +24,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   A blog about scientific computing, data, stats, and Julia.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: aaowens.github.io "" # the base hostname & protocol for your site, e.g. 
+markdown: GFM
 twitter_username: 
 github_username:  aaowens
 
