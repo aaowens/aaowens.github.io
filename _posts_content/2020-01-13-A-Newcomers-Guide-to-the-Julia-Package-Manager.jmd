@@ -25,7 +25,7 @@ pkg"add DataFrames CSV"
 ```
 
 There are many important concepts in the above output. Let's discuss them briefly:
-1.  ```Updating `~/.julia/environments/v1.3/Project.toml` ``` means we are permenantly adding packages to our default package enviornment, which lives in the file `Project.toml` stored on the computer at the path above. We'll talk more about environments later.
+1.  ```Updating `~/.julia/environments/v1.3/Project.toml` ``` means we are permanently adding packages to our default package environment, which lives in the file `Project.toml` stored on the computer at the path above. We'll talk more about environments later.
 
 2. ```[336ed68f] - CSV v0.5.22``` says we added the CSV package at the version 0.5.22, which is the latest feasible version. Why do I say "feasible"? More on that later.
 3. A version is a snapshot of the package code taken at a particular time. Packages change over time as they are updated by their maintainers. New features may be added, and bugs will be fixed (and introduced!). Importantly, code that works fine on version 0.5.22 of CSV may not work on a future version, like 0.6.1. This is why it's important to understand versions. Julia's package manager provides tools to make sure your code won't break in the future because of a package update.
@@ -55,9 +55,9 @@ It doesn't work! This is because we never installed the GLM package.
 
 We could add it, but how will
 we know we'll have the same version the code above was written for? The safe solution is to activate
-the enviornment associated with this code.
+the environment associated with this code.
 
-Let's try activating a project. Download the zip file [here](https://github.com/aaowens/aaowens.github.io/blob/master/misc/ExampleProject.zip), which contains a Julia script,
+Let's try activating a project. Download this zip file [here](https://github.com/aaowens/aaowens.github.io/blob/master/_misc/ExampleProject.zip), which contains a Julia script,
 a Project.toml, and a Manifest.toml. Unzip it and change the working directory in Julia to that folder,
 then run this code.
 
@@ -71,15 +71,15 @@ pkg"activate ."
 pkg"instantiate"
 ```
 
-It's important to note the file path. Projects are associated with file directories.  This code activates the enviornment specified by the Project.toml file in the current directory,
+It's important to note the file path. Projects are associated with file directories.  This code activates the environment specified by the Project.toml file in the current directory,
 then instantiates the packages at the versions specified in the Manifest.toml file. Let's check what those
-are by checking the package enviornment status.
+are by checking the package environment status.
 
 ```julia
 pkg"status"
 ```
 
-At this point, the package enviornment is exactly as it was when the project's author wrote this code, so we can
+At this point, the package environment is exactly as it was when the project's author wrote this code, so we can
 trust that the code will work.
 
 ```julia
@@ -91,12 +91,12 @@ df = DataFrame(y = y, x1 = x1, x2 = x2, eps = eps)
 ols = lm(@formula(y ~ x1 + x2), df)
 ```
 
-Again, we could have just added the GLM package to our default enviornment and not bothered with this
-seperate project enviornment. The code would probably still work. However, this approach is safer
+Again, we could have just added the GLM package to our default environment and not bothered with this
+separate project environment. The code would probably still work. However, this approach is safer
 and guarantees that if the DataFrames or GLM interface changes in a few years, our code won't break. It also
 allows us to share our code with others, and it will just work.
 
-## Making your own project enviornment
+## Making your own project environment
 
 In addition to using environments built by others, we would like to use them for our own
 projects. Let's make a new project now. Projects in Julia are associated with file directories. To make
@@ -114,8 +114,8 @@ pkg"instantiate"
 pkg"status"
 ```
 
-This is a completely empty enviornment, which means we can't use DataFrames right now. Let's add DataFrames
-to our enviornment, along with BenchmarkTools.
+This is a completely empty environment, which means we can't use DataFrames right now. Let's add DataFrames
+to our environment, along with BenchmarkTools.
 
 ```julia
 pkg"add DataFrames BenchmarkTools"
@@ -123,17 +123,17 @@ readdir()
 ```
 
 We see that there is now a Project.toml and Manifest.toml in the NewProject directory. Julia
-created these files automatically and stores the enviornment information there.
+created these files automatically and stores the environment information there.
 
 At this point, we can write code for our new project and store the code in .jl files or
-Jupyter notebooks inside this directory. Remember to activate the enviornment in your code. The
+Jupyter notebooks inside this directory. Remember to activate the environment in your code. The
 first lines in the script you use to run the code should be
 ```julia; eval = false
 using Pkg
 pkg"activate ."
 pkg"instantiate"
 ```
-which activates and instantiates the local (current directory) enviornment.
+which activates and instantiates the local (current directory) environment.
 
 ## How to distribute or archive your Julia project
 
@@ -141,7 +141,7 @@ Suppose you have been working on a project, whether it is a homework assignment,
 or a solution for a client. You want to send your code to someone else. The way to do this is simply to
 zip your project folder into a file. For example, we could zip the NewProject folder we just made
 into a NewProject.zip file and email the file to someone. The user then unzips the file on their computer, starts
-Julia in that folder, and runs your code. Julia will activate the project and instantiate the Manifest.toml,
+Julia in that folder, and runs your code. The lines of code above will cause Julia to activate the project and instantiate the Manifest.toml,
 guaranteeing they are using exactly the same package versions as you were.
 
 ## Updating packages
@@ -154,38 +154,38 @@ pkg"update"
 ```
 
 Unsurprisingly, no updates are available, since we just installed these packages. Notice that
-the changes were written to `NewProject/Project.toml`, which is our current local enviornment. Nothing has
-changed in our default enviornment. It's fine to have different environments using different versions of packages.
+the changes were written to `NewProject/Project.toml`, which is our current local environment. Nothing has
+changed in our default environment. It's fine to have different environments using different versions of packages.
 
-You may want to keep your default enviornment up to date, but avoid updating a local enviornment because you don't want to
+You may want to keep your default environment up to date, but avoid updating a local environment because you don't want to
 break your existing code. In fact, it's a good idea to have a backup zip file of your project (including the Manifest.toml)
 so that if an update breaks your code, you can instantly return to a good working version.
 
 Earlier I mentioned that the CSV package we added was installed at the latest feasible version. Packages come with their
 own list of dependencies and the acceptable versions of those dependencies. If, for example, the DataFrames package were only
 compatible with version 0.4 of CSV (this is not actually true), then the latest version of CSV would not be installed. This could lead to some unexpected behavior. For example,
-if you started with an empty enviornment and added CSV, it would install the latest version (0.5). If you then added DataFrames, CSV
+if you started with an empty environment and added CSV, it would install the latest version (0.5). If you then added DataFrames, CSV
 would actually be downgraded to version 0.4 for compatibility reasons. Dealing with package dependencies can be
 [complicated](https://en.wikipedia.org/wiki/Dependency_hell), but you will probably not have to worry about this much
 if you stick to well-maintained packages and heed the following advice.
 
-## Avoid putting all packages in your default enviornment
+## Avoid putting all packages in your default environment
 
-It can be teampting to not bother with activating and instantiating and just add packages
-as needed to your default enviornment. This often works and is fairly common practice, but I recommend against it for 2 reasons.
+It can be tempting to not bother with activating and instantiating and just add packages
+as needed to your default environment. This often works and is fairly common practice, but I recommend against it for 2 reasons.
 
 1. It makes it harder to share your project. Your colleague probably has different packages installed. Using project specific Project.toml and Manifest.toml solves this problem.
-2. Version conflicts may make it impossible to use certain packages. For example, suppose package A requires a feature introduced in version 0.20 of DataFrames, but package B only works on version 0.19 of DataFrames. It will be impossible to install package A and B at the same time because you can only have one version of a package per enviornment. In contrast, if you have two projects with their own local environments, the first will just use 0.20, and the second will use 0.19.
+2. Version conflicts may make it impossible to use certain packages. For example, suppose package A requires a feature introduced in version 0.20 of DataFrames, but package B only works on version 0.19 of DataFrames. It will be impossible to install package A and B at the same time because you can only have one version of a package per environment. In contrast, if you have two projects with their own local environments, the first will just use 0.20, and the second will use 0.19.
 
 ## Final thoughts
 
 There are other ways of managing package environments. The QuantEcon ecosystem uses the package
-InstantiateFromURL.jl to load the enviornment from the internet, so you can just execute a line of code instead
+InstantiateFromURL.jl to load the environment from the internet, so you can just execute a line of code instead
 of distributing a Project.toml and Manifest.toml. This works well for them, but for individual projects it's simpler
 just to zip your code along with the .toml files.
 
 This post doesn't cover package development. For that, I recommend Chris Rackauckas's [video](https://www.youtube.com/watch?v=QVmU29rCjaA&t=2309s).
-The offical Pkg [documentation](https://julialang.github.io/Pkg.jl/v1/) covers package management in exhaustive detail.
+The official Pkg [documentation](https://julialang.github.io/Pkg.jl/v1/) covers package management in exhaustive detail.
 
 ```julia;echo = false; results = "hidden"
 cd("..")

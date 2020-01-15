@@ -22,7 +22,7 @@ title: Andrew's Programming Blog
 email: 
 description: >- # this means to ignore newlines until "baseurl:"
   A blog about scientific computing, data, stats, and Julia.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: aaowens.github.io "" # the base hostname & protocol for your site, e.g. 
 twitter_username: 
 github_username:  aaowens
@@ -32,7 +32,7 @@ github_username:  aaowens
 theme: minima
 plugins:
   - jekyll-feed
-rss_path : nil
+#rss_path : nil
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
