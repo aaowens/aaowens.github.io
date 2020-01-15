@@ -95,8 +95,8 @@ pkg"instantiate"
 
 
 ````
-Activating environment at `~/Documents/julia/PackageBlog/ExampleProject/Pro
-ject.toml`
+Activating environment at `~/Documents/data/myblog/aaowens.github.io/_posts
+_content/ExampleProject/Project.toml`
 ````
 
 
@@ -113,7 +113,8 @@ pkg"status"
 
 
 ````
-Status `~/Documents/julia/PackageBlog/ExampleProject/Project.toml`
+Status `~/Documents/data/myblog/aaowens.github.io/_posts_content/Exampl
+eProject/Project.toml`
   [a93c6f00] DataFrames v0.20.0
   [38e38edf] GLM v1.3.5
 ````
@@ -143,13 +144,13 @@ StatsModels.TableRegressionModel{GLM.LinearModel{GLM.LmResp{Array{Float64,1
 y ~ 1 + x1 + x2
 
 Coefficients:
-───────────────────────────────────────────────────────────────────────────
-             Estimate  Std. Error   t value  Pr(>|t|)  Lower 95%  Upper 95%
-───────────────────────────────────────────────────────────────────────────
-(Intercept)  0.477235   0.0723487   6.59631    <1e-8    0.333642   0.620827
-x1           1.94909    0.0900035  21.6557     <1e-38   1.77046    2.12772 
-x2           3.09218    0.1054     29.3375     <1e-49   2.88299    3.30137 
-───────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────
+             Estimate  Std. Error  t value  Pr(>|t|)  Lower 95%  Upper 95%
+──────────────────────────────────────────────────────────────────────────
+(Intercept)  0.602334    0.075256   8.0038    <1e-11   0.452972   0.751696
+x1           1.95099     0.107514  18.1463    <1e-32   1.7376     2.16438 
+x2           2.96151     0.104047  28.4633    <1e-48   2.75501    3.16801 
+──────────────────────────────────────────────────────────────────────────
 ````
 
 
@@ -178,12 +179,13 @@ pkg"status"
 
 
 ````
-Activating new environment at `~/Documents/julia/PackageBlog/NewProject/Pro
-ject.toml`
+Activating new environment at `~/Documents/data/myblog/aaowens.github.io/_p
+osts_content/NewProject/Project.toml`
   Updating registry at `~/.julia/registries/General`
   Updating git-repo `https://github.com/JuliaRegistries/General.git`
 [?25l[2K[?25h Resolving package versions...
-    Status `~/Documents/julia/PackageBlog/NewProject/Project.toml`
+    Status `~/Documents/data/myblog/aaowens.github.io/_posts_content/NewPro
+ject/Project.toml`
   (empty environment)
 ````
 
@@ -201,10 +203,12 @@ pkg"add DataFrames BenchmarkTools"
 
 ````
 Resolving package versions...
-  Updating `~/Documents/julia/PackageBlog/NewProject/Project.toml`
+  Updating `~/Documents/data/myblog/aaowens.github.io/_posts_content/NewPro
+ject/Project.toml`
   [6e4b80f9] + BenchmarkTools v0.4.3
   [a93c6f00] + DataFrames v0.20.0
-  Updating `~/Documents/julia/PackageBlog/NewProject/Manifest.toml`
+  Updating `~/Documents/data/myblog/aaowens.github.io/_posts_content/NewPro
+ject/Manifest.toml`
   [6e4b80f9] + BenchmarkTools v0.4.3
   [324d7699] + CategoricalArrays v0.7.6
   [34da2185] + Compat v3.2.0
@@ -307,9 +311,11 @@ pkg"update"
 Updating registry at `~/.julia/registries/General`
   Updating git-repo `https://github.com/JuliaRegistries/General.git`
 [?25l[2K[?25h Resolving package versions...
-  Updating `~/Documents/julia/PackageBlog/NewProject/Project.toml`
+  Updating `~/Documents/data/myblog/aaowens.github.io/_posts_content/NewPro
+ject/Project.toml`
  [no changes]
-  Updating `~/Documents/julia/PackageBlog/NewProject/Manifest.toml`
+  Updating `~/Documents/data/myblog/aaowens.github.io/_posts_content/NewPro
+ject/Manifest.toml`
  [no changes]
 ````
 

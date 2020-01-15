@@ -9,7 +9,8 @@ github_project("aaowens/aaowens.github.io", path = "_misc/ParallelVFI", force = 
 
 ````
 Info Local TOML exists; removing now.
-Activating environment at `~/Documents/julia/ParallelVFI/Project.toml`
+Activating environment at `~/Documents/data/myblog/aaowens.github.io/_posts
+_content/Project.toml`
 Precompiling project...
 Info Project name is NA, version is NA
 ````
@@ -115,7 +116,7 @@ vfall, polall = test_serial(vfall, polall)
 
 
 ````
-0.413043 seconds (618.11 k allocations: 53.327 MiB)
+0.407848 seconds (618.11 k allocations: 53.327 MiB)
 ````
 
 
@@ -147,7 +148,7 @@ vfall, polall = test_threads(vfall2, polall)
 
 
 ````
-0.112591 seconds (621.16 k allocations: 53.624 MiB)
+0.112121 seconds (621.17 k allocations: 53.624 MiB)
 ````
 
 
