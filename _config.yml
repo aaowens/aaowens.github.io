@@ -41,6 +41,11 @@ social_links:
   rss: rss
 minima:
   date_format: "%b %-d, %Y"
+
+feed:
+  categories:
+    - news
+    - updates
 #rss_path : nil
 # Exclude from processing.
 # The following items will not be processed, by default.

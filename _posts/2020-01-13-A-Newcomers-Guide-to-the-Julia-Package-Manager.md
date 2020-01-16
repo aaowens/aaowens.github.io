@@ -1,3 +1,6 @@
+---
+categories: [julia]
+---
 NOTE: Some of this code, specifically the `pkg"..."` strings, is only compatible with Julia 1.3 and later. I recommend upgrading to Julia
 1.3.1 if you haven't already; it's quite a bit faster at some things.
 
@@ -214,7 +217,7 @@ ject/Manifest.toml`
   [34da2185] + Compat v3.2.0
   [9a962f9c] + DataAPI v1.1.0
   [a93c6f00] + DataFrames v0.20.0
-  [864edb3b] + DataStructures v0.17.7
+  [864edb3b] + DataStructures v0.17.9
   [e2d170a0] + DataValueInterfaces v1.0.0
   [41ab1584] + InvertedIndices v1.0.0
   [82899510] + IteratorInterfaceExtensions v1.0.0

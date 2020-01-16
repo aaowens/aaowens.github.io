@@ -1,3 +1,6 @@
+---
+categories: [julia]
+---
 # Serial
 Here we perform a serial (single-core) value function iteration to solve a simple savings problem with idiosyncratic income shocks. To solve the Bellman equation at each point in the state space, we use numerical optimization (Brent's method) and monotonic cubic spline interpolation over the expected value function. For simplicity we iterate a fixed 100 times.
 
@@ -116,7 +119,7 @@ vfall, polall = test_serial(vfall, polall)
 
 
 ````
-0.407848 seconds (618.11 k allocations: 53.327 MiB)
+0.421017 seconds (618.11 k allocations: 53.327 MiB, 3.73% gc time)
 ````
 
 
@@ -148,7 +151,7 @@ vfall, polall = test_threads(vfall2, polall)
 
 
 ````
-0.112121 seconds (621.17 k allocations: 53.624 MiB)
+0.418350 seconds (619.01 k allocations: 53.406 MiB, 3.51% gc time)
 ````
 
 
