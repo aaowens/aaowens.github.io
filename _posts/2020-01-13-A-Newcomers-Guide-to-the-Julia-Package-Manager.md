@@ -26,7 +26,7 @@ Resolving package versions...
   [a93c6f00] + DataFrames v0.20.0
   Updating `~/.julia/environments/v1.3/Manifest.toml`
   [336ed68f] + CSV v0.5.22
-  [324d7699] + CategoricalArrays v0.7.6
+  [324d7699] + CategoricalArrays v0.7.7
   [a93c6f00] + DataFrames v0.20.0
   [48062228] + FilePathsBase v0.7.0
   [41ab1584] + InvertedIndices v1.0.0
@@ -213,7 +213,7 @@ ject/Project.toml`
   Updating `~/Documents/data/myblog/aaowens.github.io/_posts_content/NewPro
 ject/Manifest.toml`
   [6e4b80f9] + BenchmarkTools v0.4.3
-  [324d7699] + CategoricalArrays v0.7.6
+  [324d7699] + CategoricalArrays v0.7.7
   [34da2185] + Compat v3.2.0
   [9a962f9c] + DataAPI v1.1.0
   [a93c6f00] + DataFrames v0.20.0

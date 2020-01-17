@@ -119,7 +119,7 @@ vfall, polall = test_serial(vfall, polall)
 
 
 ````
-0.421017 seconds (618.11 k allocations: 53.327 MiB, 3.73% gc time)
+0.419485 seconds (618.11 k allocations: 53.327 MiB, 3.48% gc time)
 ````
 
 
@@ -151,7 +151,7 @@ vfall, polall = test_threads(vfall2, polall)
 
 
 ````
-0.418350 seconds (619.01 k allocations: 53.406 MiB, 3.51% gc time)
+0.433563 seconds (619.01 k allocations: 53.406 MiB, 3.02% gc time)
 ````
 
 
