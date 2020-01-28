@@ -3,8 +3,14 @@
 using Pipe
 include("weave2.jl")
 
+RUNALL = false
+
 files = readdir()
-jmd = @pipe splitext.(files) |> filter(x -> x[2] == ".jmd", _)
+if RUNALL
+	jmd = @pipe splitext.(files) |> filter(x -> x[2] == ".jmd", _)	
+else
+	jmd = [""] # Put new posts to run here 
+end
 jmdfiles = reduce.(*, jmd)
 #jmdfiles = filter(x -> splitext(x)[2] == ".jmd", files)
 weave2.(jmdfiles)
