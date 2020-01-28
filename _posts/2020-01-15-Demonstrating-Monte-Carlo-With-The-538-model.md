@@ -31,7 +31,7 @@ the features I talked about. The voting mechanics in the model works as follows:
 
 1. Candidates need 50% of the total vote share to win the election.
 2. States vote sequentially.
-3. All states are caucus states, so any candidate with <10% of the vote has their vote distributed to other candidates. In reality this truncation occurs at the precinct level, but this is a simplification.
+3. All states are caucus states, so any candidate with <15% of the vote has their vote distributed to other candidates. In reality this truncation occurs at the precinct level, but this is a simplification.
 
 I also need to model voting behavior:
 
@@ -58,7 +58,7 @@ as new data arrives. It's an impressive undertaking.
 const N_cand = 6 # 6 candidates
 const N_state = 50 # 50 states
 const N_dropout = 20 # Drop out after 20 states
-const cutoff = 0.1 # Caucus cutoff, truncate vote to 0
+const cutoff = 0.15 # Caucus cutoff, truncate vote to 0
 const α_momentum = 0.5 # Importance of random walk component
 const α_eps = 0.3 # Importance of random shocks
 using Random
@@ -79,7 +79,7 @@ support, eliminating candidate 1 may save candidate 2.
 function distribute_vote(shares)
     newshares = copy(shares)
     for i in 1:N_cand
-        if newshares[i] < 0.15 # Need to distribute this person's vote
+        if newshares[i] < cutoff # Need to distribute this person's vote
             votetotal = newshares[i]
             newshares[i] = 0
             num_takers = count(x -> x > 0, newshares) # How many people should receive vote
@@ -122,7 +122,7 @@ function simulate()
         if t > N_dropout # Need at least N_dropout of history to check this
             for i in 1:N_cand
                 # We divide by t here to convert from total votes to the vote share
-                cvotes[i, t] / t <= (0.15) && (dropped_out[i] = true) # Race is hopeless
+                cvotes[i, t] / t <= (cutoff) && (dropped_out[i] = true) # Race is hopeless
             end
         end
     end

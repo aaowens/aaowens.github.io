@@ -5,12 +5,12 @@ include("weave2.jl")
 
 RUNALL = false
 
-files = readdir()
 if RUNALL
-	jmd = @pipe splitext.(files) |> filter(x -> x[2] == ".jmd", _)	
+	files = readdir()
 else
-	jmd = [""] # Put new posts to run here 
+	files = ["2020-01-15-Demonstrating-Monte-Carlo-With-The-538-model.jmd"] # Put new posts to run here
 end
+jmd = @pipe splitext.(files) |> filter(x -> x[2] == ".jmd", _)
 jmdfiles = reduce.(*, jmd)
 #jmdfiles = filter(x -> splitext(x)[2] == ".jmd", files)
 weave2.(jmdfiles)
