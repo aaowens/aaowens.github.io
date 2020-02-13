@@ -8,7 +8,7 @@ RUNALL = false
 if RUNALL
 	files = readdir()
 else
-	files = ["2020-01-15-Demonstrating-Monte-Carlo-With-The-538-model.jmd"] # Put new posts to run here
+	files = ["2020-02-11-Using-the-Panel-Study-of-Income-Dynamics.jmd"] # Put new posts to run here
 end
 jmd = @pipe splitext.(files) |> filter(x -> x[2] == ".jmd", _)
 jmdfiles = reduce.(*, jmd)
