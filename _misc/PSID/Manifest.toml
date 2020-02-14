@@ -445,7 +445,7 @@ version = "0.9.11"
 
 [[PSID]]
 deps = ["AbstractTrees", "CSV", "DataDeps", "DataFrames", "DataFramesMeta", "DataStructures", "JSON3", "JSONTables", "LightXML", "Parsers", "SHA", "XLSX"]
-git-tree-sha1 = "fc7f15fd92e53cc95065fb217048d745eef70309"
+git-tree-sha1 = "f7f339cb46828b1463009a2d399b5b18b8b8511c"
 repo-rev = "master"
 repo-url = "https://github.com/aaowens/PSID.jl"
 uuid = "92fd0282-be9c-47fb-a489-f0d0a91db595"
