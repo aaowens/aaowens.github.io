@@ -4,8 +4,6 @@ title: About
 permalink: /about/
 ---
 
-I am a PhD candidate in economics at the University of Rochester. I am currently searching for jobs as a data scientist or scientific software engineer, preferably with a company which uses Julia. You can contact me at owensaa (at) gmail {dot} com.
-
 My github page is [here](https://github.com/aaowens). 
 
 Here is a list of my working papers and publications:
